@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" class="h-100" data-bs-theme="auto">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>jskos2rdf - readme</title>
+      <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+      <script src="bootstrap/bootstrap.bundle.min.js"></script>
+      <style>
+        code {
+            background-color: #EFEFEF;
+            display: block;
+            padding: 15px;
+            color: black;
+            width: 90%;
+            margin: 20px 20px 20px 40px;
+        }  
+      </style>
+   </head>
+   <body class="d-flex flex-column h-100">
+      <!-- Begin page content -->
+      <main class="flex-shrink-0">
+         <div class="container">
+            <h1 class="mt-5"><a href="https://github.com/gbv/jskos2rdf" target="_blank">github.com/gbv/jskos2rdf</a></h1><br />
+            <p class="lead">Converts jskos to rdf via a simple REST-API. Takes automatically care about prefixes, context.json, checks etc.
+                <br />
+                <br />
+                This service uses <a href="https://github.com/gbv/jsonld2rdf" target="_blank">https://github.com/gbv/jsonld2rdf</a> to serialize JSON to RDF. This is a Node service that uses <a href="https://github.com/poolifier/poolifier" target="_blank">https://github.com/poolifier/poolifier</a> for parallelization. The service uses a dynamic thread pool. Add more CPU if you need more parallel processes, because one CPU equals one more possible process.<br />
+            </p>
+            <br />
+
+            <h2>Usage</h2>
+            You can use the service via GET and POST, while GET is more intended for tests (note the restrictions on GET).
+            <br /><br />
+            Parameters are:
+            <ul>
+                <li>"format": "turtle" or "ntriples"</li>
+                <li>"jskos": valid <a href="https://gbv.github.io/jskos/" target="_blank">jskos</a>-concept(s)</li>
+            </ul>
+
+            Example-<a href="https://gbv.github.io/jskos/" target="_blank">JSKOS</a>:
+            <pre><code>[
+    {
+        "uri": "http://uri.example.com/7f419c1e-5c96-473c-fdet-420447eba050",
+        "type": [
+            "http://www.w3.org/2004/02/skos/core#Concept"
+        ],
+        "@context": "https://gbv.github.io/jskos/context.json",
+        "prefLabel": {
+            "de": "Beispiel",
+            "en": "Example"
+        }
+    }
+]</code></pre><br />
+
+            <h5>GET</h5>
+Remember to encode your JSON in GET-Parameter:
+<code>
+    GET jskos2rdf.example.com/serialize?jskos=%5B%20%7B%20%22uri%22%3A%20%22http%3A%2F%2Furi.example.co...&format=turtle
+</code>
+<br />
+<h5>POST</h5>
+<pre>
+    <code>POST to https://jskos2rdf.example.com/serialize
+
+with payload:
+
+{
+    "jskos": [
+        {
+            "uri": "http://uri.example.com/7f419c1e-5c96-473c-fdet-420447eba050",
+            "type": [
+                "http://www.w3.org/2004/02/skos/core#Concept"
+            ],
+            "@context": "https://gbv.github.io/jskos/context.json",
+            "prefLabel": {
+                "de": "Beispiel",
+                "en": "Example"
+            }
+        }
+    ],
+    "format": "turtle"
+}</code></pre>
+<br />
+
+<h5>Result</h5>
+The appropriate content-type header is sent along with "Access-Control-Allow-Origin:*". Both examples return:
+<pre>
+<code>@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix skos: &lt;http://www.w3.org/2004/02/skos/core#&gt; .
+
+&lt;http://uri.example.com/7f419c1e-5c96-473c-fdet-420447eba050&gt; a skos:Concept ;
+    skos:prefLabel "Beispiel"@de, "Example"@en .</code>
+</pre>
+
+         </div>
+      </main>
+      <footer class="footer mt-auto py-3 bg-body-tertiary">
+         <div class="container">
+            <span class="text-body-secondary">Verbundzentrale des GBV (VZG)&nbsp;&nbsp;&nbsp;<a href="https://www.gbv.de/impressum" target="_blank">Impressum</a>&nbsp;&nbsp;&nbsp;<a href="https://github.com/gbv/jskos2rdf">https://github.com/gbv/jskos2rdf</a></span>
+         </div>
+      </footer>
+   </body>
+</html>

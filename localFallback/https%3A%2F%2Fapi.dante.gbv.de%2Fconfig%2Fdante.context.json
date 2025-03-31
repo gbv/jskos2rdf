@@ -1,0 +1,12 @@
+{
+    "@context": {
+        "gndo": "https://d-nb.info/standards/elementset/gnd#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "_forname": "gndo:forename",
+        "_surname": "gndo:surname",
+        "_name_prefix": "gndo:prefix",
+        "_numbering": "gndo:counting",
+        "_affix": "gndo:nameAddition",
+        "_comment": "rdfs:comment"
+    }
+}
