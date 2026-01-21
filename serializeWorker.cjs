@@ -36,7 +36,7 @@ let cache = {};
             "last_updated" : 12345679123,
             "value": Object
         },
-        ...
+        ..
     }
 */
 
