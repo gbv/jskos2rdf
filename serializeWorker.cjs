@@ -138,7 +138,7 @@ async function serializeData(parameters) {
     let rdfString = '{}';
     try {
         if (format === 'ntriples') {
-            rdfString = await jsonld2rdf(jskos, { context });
+            rdfString = await jsonld2rdf([jskos], { context });
         } else if (format === 'turtle' || format === '') {
             rdfString = await jsonld2rdf([jskos], { context, prefixes });
         }
