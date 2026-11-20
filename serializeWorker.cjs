@@ -121,9 +121,14 @@ async function serializeData(parameters) {
         });
     }
 
-    // add media-context (iiif)
-    if(externalFileData?.media.length > 0) { 
-        context['media']['@context'] = externalFileData.media;
+    if (externalFileData.media.length > 0) {
+        // workaround, because media is missing in context.jskos for unknown reason
+        if (!context.media) {
+            context.media = {
+                '@id': 'http://xmlns.com/foaf/0.1/depiction'
+            };
+        }
+        context.media['@context'] = externalFileData.media;
     }
 
     // get and merge prefixes
